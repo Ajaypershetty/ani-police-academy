@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ANI Police Academy</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="app">
+
+<section id="login" class="screen login-screen">
+  <div class="academy-mark"><div class="shield">★</div><div><div class="brand">ANI</div><div class="brand-sub">POLICE ACADEMY</div></div></div>
+  <div class="hero-copy">
+    <p class="eyebrow">YOUR JOURNEY STARTS HERE</p>
+    <h1>Earn the uniform.<br><span>Train for it.</span></h1>
+    <p class="muted">A preparation experience built around discipline, missions and measurable progress.</p>
+  </div>
+  <div class="login-card">
+    <label for="name">ASPIRANT NAME</label>
+    <input id="name" type="text" placeholder="Enter your name" maxlength="30">
+    <button id="enterBtn" class="primary">ENTER THE ACADEMY <span>→</span></button>
+    <p class="tiny">Your progress stays on this device in this version.</p>
+  </div>
+</section>
+
+<section id="dashboard" class="screen hidden">
+<header class="topbar">
+  <div class="academy-mark compact"><div class="shield small">★</div><div><div class="brand">ANI</div><div class="brand-sub">POLICE ACADEMY</div></div></div>
+  <button id="logout" class="icon-btn">↗</button>
+</header>
+<main class="dashboard">
+  <div class="welcome">
+    <div><p class="eyebrow">TRAINING DAY <span>01</span></p><h2>Welcome, <span id="aspirantName">Aspirant</span>.</h2><p class="muted">Your selection journey is built one training session at a time.</p></div>
+    <div class="rank-badge"><span id="rankName">CADET</span><b id="rankLevel">LV 01</b></div>
+  </div>
+
+  <section class="readiness">
+    <div><p class="eyebrow">ACADEMY READINESS</p><div class="readiness-number"><span id="readiness">0</span><small>%</small></div><p class="muted">Your readiness changes as your training improves.</p></div>
+    <div class="progress-ring"><div><b id="ringText">0%</b></div></div>
+  </section>
+
+  <section id="weaknessCard" class="weak-card">
+    <div>
+      <p class="eyebrow">TRAINING INTELLIGENCE</p>
+      <h3 id="weakTitle">Your first diagnosis is waiting.</h3>
+      <p id="weakText" class="muted">Complete a Mission Test and ANI will find your weakest subject automatically.</p>
+    </div>
+    <button id="weakBtn" class="secondary">VIEW WEAKNESS CAMP</button>
+  </section>
+
+  <section class="mission">
+    <div class="mission-head"><div><p class="eyebrow">TODAY'S MISSION</p><h3>First Response</h3></div><span class="status">READY</span></div>
+    <p>20 questions • 15 minutes • accuracy matters</p>
+    <button id="startMission" class="primary">START TRAINING <span>→</span></button>
+  </section>
+
+  <section class="daily-card" id="dailyCard">
+    <div class="daily-head"><div><p class="eyebrow">DAILY TRAINING</p><h3 id="dailyTitle">Your 10-minute drill is ready.</h3><p id="dailyText" class="muted">Complete today's focused drill to earn XP and protect your streak.</p></div><div class="xp-pill">+<b id="dailyXp">50</b> XP</div></div>
+    <div class="daily-progress"><span id="dailyProgress">0 / 10 completed</span><div class="bar"><i id="dailyBar"></i></div></div>
+    <button id="startDaily" class="primary">START DAILY DRILL <span>→</span></button>
+  </section>
+
+  <section class="grid">
+    <button class="zone" id="dailyZone"><span class="zone-icon">◉</span><strong>Daily Training</strong><small>Build your streak</small></button>
+    <button class="zone" id="missionZone"><span class="zone-icon">◆</span><strong>Mission Tests</strong><small>Full exam simulations</small></button>
+    <button class="zone" id="examModeZone"><span class="zone-icon">▣</span><strong>Exam Mode</strong><small>Choose your exam</small></button>
+    <button class="zone" id="weakZone"><span class="zone-icon">⚠</span><strong>Weakness Camp</strong><small id="weakZoneText">Attack weak areas</small></button>
+    <button class="zone" data-message="Rapid Fire is coming soon."><span class="zone-icon">ϟ</span><strong>Rapid Fire</strong><small>Speed + accuracy</small></button>
+    <button class="zone" data-message="Knowledge Armoury is coming soon."><span class="zone-icon">▣</span><strong>Knowledge Armoury</strong><small>Important facts</small></button>
+    <button class="zone" id="performanceZone"><span class="zone-icon">▤</span><strong>My Training</strong><small>See your preparation</small></button>
+    <button class="zone" id="battlePlanZone"><span class="zone-icon">⚔</span><strong>Battle Plan</strong><small>Know what to do next</small></button>
+  </section>
+
+  <section class="progress-card">
+    <div><div><p class="eyebrow">ACADEMY PROGRESS</p><h3 id="progressTitle">CADET LEVEL 1</h3><p class="muted"><span id="xpNow">0</span> / <span id="xpNext">100</span> XP to next level</p></div><div class="level-circle"><b id="levelNumber">01</b></div></div>
+    <div class="xp-track"><i id="xpBar"></i></div>
+  </section>
+  <section class="stats">
+    <div><span>QUESTIONS</span><b id="statQuestions">0</b></div>
+    <div><span>ACCURACY</span><b id="statAccuracy">—</b></div>
+    <div><span>STREAK</span><b id="statStreak">0 🔥</b></div>
+  </section>
+<button id="openProfile" class="profile-mini" title="My Profile">A</button>
+</main>
+</section>
+
+<section id="test" class="screen hidden test-screen">
+<header class="topbar"><div class="academy-mark compact"><div class="shield small">★</div><div><div class="brand">ANI</div><div class="brand-sub">MISSION TEST</div></div></div><div class="timer" id="timer">15:00</div></header>
+<main class="test-wrap">
+  <div class="test-top"><div><p class="eyebrow">MISSION 01 • FIRST RESPONSE</p><h2 id="questionNumber">QUESTION 01 / 20</h2></div><div class="score-mini">SCORE <b id="liveScore">0</b></div></div>
+  <div class="question-card"><div class="subject-tag" id="subjectTag">GENERAL KNOWLEDGE</div><h3 id="questionText"></h3><div id="options" class="options"></div></div>
+  <div class="test-actions"><button id="quitTest" class="secondary">EXIT MISSION</button><button id="nextQuestion" class="primary" disabled>NEXT →</button></div>
+</main>
+</section>
+
+<section id="result" class="screen hidden result-screen">
+<main class="result-wrap">
+  <div class="result-mark">✓</div><p class="eyebrow">MISSION COMPLETE</p><h1 id="resultTitle">Training complete.</h1>
+  <p class="muted">The score matters. The diagnosis matters more.</p>
+  <div class="result-score"><span id="resultScore">0</span><small>/20</small></div>
+  <div class="result-grid"><div><span>ACCURACY</span><b id="resultAccuracy">0%</b></div><div><span>TIME</span><b id="resultTime">—</b></div><div><span>READINESS</span><b id="resultReadiness">0%</b></div></div>
+  <div class="analysis" id="analysis"></div>
+  <div class="result-actions"><button id="reviewMission" class="secondary">REVIEW ANSWERS</button><button id="backHome" class="primary">RETURN TO ACADEMY <span>→</span></button></div>
+</main>
+</section>
+
+
+<section id="daily" class="screen hidden test-screen">
+<header class="topbar">
+  <div class="academy-mark compact"><div class="shield small">★</div><div><div class="brand">ANI</div><div class="brand-sub">DAILY TRAINING</div></div></div>
+  <div class="timer" id="dailyTimer">10:00</div>
+</header>
+<main class="test-wrap">
+  <div class="test-top">
+    <div><p class="eyebrow">DAILY DRILL • 10 QUESTIONS</p><h2 id="dailyQuestionNumber">QUESTION 01 / 10</h2></div>
+    <div class="score-mini">SCORE <b id="dailyLiveScore">0</b></div>
+  </div>
+  <div class="question-card">
+    <div class="subject-tag" id="dailySubjectTag">GENERAL KNOWLEDGE</div>
+    <h3 id="dailyQuestionText"></h3>
+    <div id="dailyOptions" class="options"></div>
+  </div>
+  <div class="test-actions">
+    <button id="quitDaily" class="secondary">EXIT DRILL</button>
+    <button id="nextDaily" class="primary" disabled>NEXT →</button>
+  </div>
+</main>
+</section>
+
+<section id="dailyResult" class="screen hidden result-screen">
+<main class="result-wrap">
+  <div class="result-mark">★</div>
+  <p class="eyebrow">DAILY DRILL COMPLETE</p>
+  <h1 id="dailyResultTitle">Discipline logged.</h1>
+  <p class="muted">Small daily sessions compound into serious preparation.</p>
+  <div class="result-score"><span id="dailyResultScore">0</span><small>/10</small></div>
+  <div class="result-grid">
+    <div><span>ACCURACY</span><b id="dailyResultAccuracy">0%</b></div>
+    <div><span>XP EARNED</span><b id="dailyResultXp">0</b></div>
+    <div><span>STREAK</span><b id="dailyResultStreak">0 🔥</b></div>
+  </div>
+  <div class="analysis" id="dailyAnalysis"></div>
+  <div class="result-actions"><button id="reviewDaily" class="secondary">REVIEW ANSWERS</button><button id="dailyBackHome" class="primary">RETURN TO ACADEMY <span>→</span></button></div>
+</main>
+</section>
+
+
+
+
+
+
+<section id="examSelect" class="screen hidden">
+<header class="topbar">
+  <div class="academy-mark compact"><div class="shield small">★</div><div><div class="brand">ANI</div><div class="brand-sub">EXAM MODE</div></div></div>
+  <button id="examBack" class="icon-btn">←</button>
+</header>
+<main class="exam-wrap">
+  <p class="eyebrow">EXAM COMMAND CENTER</p>
+  <h1>Choose your battlefield.</h1>
+  <p class="muted">Select an exam and ANI will prepare the session around its pattern. This version is a prototype; official pattern details will be added after verification before public release.</p>
+  <div id="examCards" class="exam-cards"></div>
+</main>
+</section>
+
+<section id="examConfig" class="screen hidden">
+<header class="topbar">
+  <div class="academy-mark compact"><div class="shield small">★</div><div><div class="brand">ANI</div><div class="brand-sub">EXAM SETUP</div></div></div>
+  <button id="configBack" class="icon-btn">←</button>
+</header>
+<main class="exam-wrap">
+  <p class="eyebrow">MISSION CONFIGURATION</p>
+  <h1 id="configExamName">Exam</h1>
+  <div class="config-card">
+    <div class="config-row"><span>QUESTIONS</span><b id="configQuestions">20</b></div>
+    <div class="config-row"><span>TIME</span><b id="configTime">20 MIN</b></div>
+    <div class="config-row"><span>MODE</span><b>EXAM SIMULATION</b></div>
+    <p class="muted">No XP is awarded for the setup screen. Your score and reviewed answers will be recorded after submission.</p>
+    <button id="beginExam" class="primary">BEGIN EXAM <span>→</span></button>
+  </div>
+</main>
+</section>
+
+<section id="exam" class="screen hidden test-screen">
+<header class="topbar">
+  <div class="academy-mark compact"><div class="shield small">★</div><div><div class="brand">ANI</div><div class="brand-sub" id="examHeaderName">EXAM MODE</div></div></div>
+  <div class="timer" id="examTimer">20:00</div>
+</header>
+<main class="test-wrap">
+  <div class="test-top">
+    <div><p class="eyebrow" id="examEyebrow">EXAM SIMULATION</p><h2 id="examQuestionNumber">QUESTION 01 / 20</h2></div>
+    <div class="score-mini">ATTEMPTED <b id="examAttempted">0</b></div>
+  </div>
+  <div class="question-card">
+    <div class="subject-tag" id="examSubjectTag">GENERAL KNOWLEDGE</div>
+    <h3 id="examQuestionText"></h3>
+    <div id="examOptions" class="options"></div>
+  </div>
+  <div class="test-actions">
+    <button id="quitExam" class="secondary">EXIT EXAM</button>
+    <button id="nextExam" class="primary" disabled>NEXT →</button>
+  </div>
+</main>
+</section>
+
+<section id="examResult" class="screen hidden result-screen">
+<main class="result-wrap">
+  <div class="result-mark">◆</div>
+  <p class="eyebrow">EXAM SUBMITTED</p>
+  <h1 id="examResultTitle">Exam complete.</h1>
+  <p class="muted">Use the result as a training signal, not a final judgment.</p>
+  <div class="result-score"><span id="examResultScore">0</span><small id="examResultTotal">/20</small></div>
+  <div class="result-grid">
+    <div><span>ACCURACY</span><b id="examResultAccuracy">0%</b></div>
+    <div><span>TIME</span><b id="examResultTime">—</b></div>
+    <div><span>READINESS</span><b id="examResultReadiness">0%</b></div>
+  </div>
+  <div class="analysis" id="examAnalysis"></div>
+  <div class="result-actions"><button id="reviewExam" class="secondary">REVIEW ANSWERS</button><button id="examHome" class="primary">RETURN TO ACADEMY <span>→</span></button></div>
+</main>
+</section>
+
+<section id="focused" class="screen hidden test-screen">
+<header class="topbar">
+  <div class="academy-mark compact"><div class="shield small">★</div><div><div class="brand">ANI</div><div class="brand-sub">FOCUSED TRAINING</div></div></div>
+  <div class="timer" id="focusedTimer">08:00</div>
+</header>
+<main class="test-wrap">
+  <div class="test-top">
+    <div><p class="eyebrow">WEAKNESS CAMP • FOCUSED 10</p><h2 id="focusedQuestionNumber">QUESTION 01 / 10</h2></div>
+    <div class="score-mini">SCORE <b id="focusedLiveScore">0</b></div>
+  </div>
+  <div class="question-card">
+    <div class="subject-tag" id="focusedSubjectTag">FOCUSED SUBJECT</div>
+    <h3 id="focusedQuestionText"></h3>
+    <div id="focusedOptions" class="options"></div>
+  </div>
+  <div class="test-actions">
+    <button id="quitFocused" class="secondary">EXIT CAMP</button>
+    <button id="nextFocused" class="primary" disabled>NEXT →</button>
+  </div>
+</main>
+</section>
+
+<section id="focusedResult" class="screen hidden result-screen">
+<main class="result-wrap">
+  <div class="result-mark">⚔</div>
+  <p class="eyebrow">FOCUSED TRAINING COMPLETE</p>
+  <h1 id="focusedResultTitle">Weakness attacked.</h1>
+  <p class="muted">The fastest way to improve your readiness is to deliberately train what costs you marks.</p>
+  <div class="result-score"><span id="focusedResultScore">0</span><small>/10</small></div>
+  <div class="result-grid">
+    <div><span>ACCURACY</span><b id="focusedResultAccuracy">0%</b></div>
+    <div><span>XP EARNED</span><b id="focusedResultXp">0</b></div>
+    <div><span>SUBJECT</span><b id="focusedResultSubject">—</b></div>
+  </div>
+  <div class="analysis" id="focusedAnalysis"></div>
+  <div class="result-actions"><button id="openAnswerReview" class="secondary">REVIEW ANSWERS →</button><button id="reviewFocused" class="secondary">REVIEW ANSWERS</button><button id="focusedBackHome" class="primary">RETURN TO ACADEMY <span>→</span></button></div>
+</main>
+</section>
+
+<section id="battlePlan" class="screen hidden">
+<header class="topbar">
+  <div class="academy-mark compact"><div class="shield small">★</div><div><div class="brand">ANI</div><div class="brand-sub">BATTLE PLAN</div></div></div>
+  <button id="battleBack" class="icon-btn">←</button>
+</header>
+<main class="battle-wrap">
+  <div class="battle-heading">
+    <p class="eyebrow">TODAY'S COMMAND</p>
+    <h1 id="battleGreeting">Your next move is clear.</h1>
+    <p class="muted">ANI turns your recent performance into a simple training order. Don't waste time deciding what to study.</p>
+  </div>
+
+  <section class="battle-focus">
+    <div><p class="eyebrow">PRIMARY TARGET</p><h2 id="battleWeak">Build your profile</h2><p id="battleWeakText" class="muted">Complete a session so ANI can identify your highest-priority subject.</p></div>
+    <div class="target-mark">01</div>
+  </section>
+
+  <div class="battle-steps">
+    <article class="battle-step" id="step1">
+      <div class="step-num">01</div><div class="step-body"><span class="step-label">WARM UP</span><h3>Daily Drill</h3><p id="step1Text">10 questions to start today's session.</p><button id="battleDaily" class="secondary">START DRILL →</button></div>
+    </article>
+    <article class="battle-step" id="step2">
+      <div class="step-num">02</div><div class="step-body"><span class="step-label">ATTACK</span><h3 id="battleStep2Title">Weakness Camp</h3><p id="step2Text">Focus on the subject that costs you the most marks.</p><button id="battleWeakBtn" class="secondary">OPEN CAMP →</button></div>
+    </article>
+    <article class="battle-step" id="step3">
+      <div class="step-num">03</div><div class="step-body"><span class="step-label">PROVE IT</span><h3>Mission Test</h3><p>Finish with a full 20-question mission and measure the improvement.</p><button id="battleMission" class="primary">START MISSION →</button></div>
+    </article>
+  </div>
+
+  <section class="battle-rule"><span>ACADEMY RULE</span><strong>Train the weakness. Repeat the mission. Raise the standard.</strong></section>
+</main>
+</section>
+
+<section id="performance" class="screen hidden">
+<header class="topbar">
+  <div class="academy-mark compact"><div class="shield small">★</div><div><div class="brand">ANI</div><div class="brand-sub">MY TRAINING</div></div></div>
+  <button id="performanceBack" class="icon-btn">←</button>
+</header>
+<main class="performance-wrap">
+  <div class="performance-heading">
+    <div>
+      <p class="eyebrow">PERSONAL PERFORMANCE</p>
+      <h1 id="performanceTitle">Your training record.</h1>
+      <p class="muted">Don't compare yourself to yesterday's score. Compare yourself to yesterday's version of you.</p>
+    </div>
+    <div class="readiness-badge"><span>READINESS</span><b id="performanceReadiness">0%</b></div>
+  </div>
+
+  <section class="hero-stats">
+    <div><span>LEVEL</span><b id="perfLevel">01</b><small id="perfRank">CADET</small></div>
+    <div><span>TOTAL XP</span><b id="perfXp">0</b><small>earned in academy</small></div>
+    <div><span>STREAK</span><b id="perfStreak">0 🔥</b><small>days disciplined</small></div>
+    <div><span>QUESTIONS</span><b id="perfQuestions">0</b><small>attempted</small></div>
+  </section>
+
+  <section class="performance-panel">
+    <div class="panel-head"><div><p class="eyebrow">SUBJECT READINESS</p><h3>Know your battlefield.</h3></div><span id="subjectAverage">—</span></div>
+    <div id="performanceSubjects" class="performance-subjects"></div>
+  </section>
+
+  <section class="performance-panel">
+    <div class="panel-head"><div><p class="eyebrow">TRAINING STATUS</p><h3 id="trainingStatusTitle">Your profile is building.</h3></div></div>
+    <div id="trainingStatus" class="status-message"></div>
+  </section>
+
+  <section class="performance-panel">
+    <div class="panel-head"><div><p class="eyebrow">NEXT TARGET</p><h3 id="nextTargetTitle">Keep training.</h3></div></div>
+    <div id="nextTarget" class="next-target"></div>
+  </section>
+</main>
+</section>
+
+
+<section id="profileSettings" class="screen hidden">
+<header class="topbar">
+  <div class="academy-mark compact"><div class="shield small">★</div><div><div class="brand">ANI</div><div class="brand-sub">MY PROFILE</div></div></div>
+  <button id="profileSettingsBack" class="icon-btn">←</button>
+</header>
+<main class="profile-settings-wrap">
+  <p class="eyebrow">YOUR ACADEMY IDENTITY</p>
+  <h1>My Profile</h1>
+  <p class="muted">Your preferences stay on this device in this prototype.</p>
+  <div class="profile-summary">
+    <div class="profile-avatar" id="profileAvatar">A</div>
+    <div><h2 id="settingsName">Aspirant</h2><span id="settingsExam">Telangana Police</span></div>
+  </div>
+  <div class="settings-card">
+    <label>NAME<input id="settingsNameInput" maxlength="30"></label>
+    <label>TARGET EXAM<select id="settingsExamSelect"><option>Telangana Police</option><option>Police Recruitment</option><option>Other Government Exam</option></select></label>
+    <label>PREPARATION LEVEL<div class="level-choice compact-level" id="settingsLevelChoice"><button type="button" data-level="Beginner">BEGINNER</button><button type="button" data-level="Intermediate">INTERMEDIATE</button><button type="button" data-level="Advanced">ADVANCED</button></div></label>
+    <label>DAILY TARGET<div class="goal-choice" id="settingsGoalChoice"><button type="button" data-goal="20">20 Q</button><button type="button" data-goal="40">40 Q</button><button type="button" data-goal="60">60 Q</button><button type="button" data-goal="100">100 Q</button></div></label>
+    <button id="saveSettings" class="primary">SAVE PROFILE</button>
+  </div>
+  <div class="device-note"><strong>Prototype note:</strong> V12 stores the profile locally on this phone. Real online accounts, cloud sync and secure authentication will be added before Play Store release.</div>
+</main>
+</section>
+
+
+<section id="weaknessRadar" class="screen hidden">
+<header class="topbar">
+  <div class="academy-mark compact"><div class="shield small">★</div><div><div class="brand">ANI</div><div class="brand-sub">WEAKNESS RADAR</div></div></div>
+  <button id="weaknessBack" class="icon-btn">←</button>
+</header>
+<main class="weakness-wrap">
+  <p class="eyebrow">YOUR TRAINING INTELLIGENCE</p>
+  <h1>Know the gap.<br>Attack the gap.</h1>
+  <p class="muted">ANI tracks topic-level performance from every answered question. The more you practice, the more precise this radar becomes.</p>
+  <div id="weaknessFullList" class="weakness-full-list"></div>
+</main>
+</section>
+
+
+
+
+
+
+
+
+<section id="dailyIntel" class="screen hidden">
+<header class="topbar">
+  <div class="academy-mark compact"><div class="shield small">★</div><div><div class="brand">ANI</div><div class="brand-sub">DAILY INTELLIGENCE</div></div></div>
+  <button id="dailyIntelBack" class="icon-btn">←</button>
+</header>
+<main class="daily-intel-wrap">
+  <div class="intel-hero">
+    <div>
+      <p class="eyebrow" id="intelDate">TODAY'S BRIEFING</p>
+      <h1 id="intelGreeting">Your mission is ready.</h1>
+      <p id="intelIntro" class="muted"></p>
+    </div>
+    <div class="intel-day"><b id="intelDayNumber">01</b><span>DAY</span></div>
+  </div>
+
+  <section class="intel-mission">
+    <div class="mission-label">TODAY'S MISSION</div>
+    <h2 id="intelMissionTitle">Build your first training signal.</h2>
+    <p id="intelMissionText" class="muted"></p>
+    <div class="intel-stats">
+      <div><span>TARGET</span><b id="intelTarget">40 Q</b></div>
+      <div><span>DONE</span><b id="intelDone">0 Q</b></div>
+      <div><span>WEAKNESS</span><b id="intelWeakness">—</b></div>
+    </div>
+    <button id="intelPrimary" class="primary">START MISSION →</button>
+  </section>
+
+  <section class="intel-list">
+    <article><span class="intel-icon">⚔</span><div><b>FOCUS</b><p id="intelFocus">ANI will identify your highest-priority topic.</p></div></article>
+    <article><span class="intel-icon">◎</span><div><b>READINESS</b><p id="intelReadiness">Complete sessions to build your readiness signal.</p></div></article>
+    <article><span class="intel-icon">🔥</span><div><b>DISCIPLINE</b><p id="intelDiscipline">Your daily target is waiting.</p></div></article>
+  </section>
+</main>
+</section>
+
+<section id="coach" class="screen hidden">
+<header class="topbar">
+  <div class="academy-mark compact"><div class="shield small">★</div><div><div class="brand">ANI</div><div class="brand-sub">PERSONAL COACH</div></div></div>
+  <button id="coachBack" class="icon-btn">←</button>
+</header>
+<main class="coach-wrap">
+  <div class="coach-hero">
+    <div class="coach-avatar">ANI</div>
+    <div>
+      <p class="eyebrow">YOUR TRAINING COACH</p>
+      <h1 id="coachGreeting">Let's train with purpose.</h1>
+      <p id="coachSubtitle" class="muted">ANI turns your recent performance into a clear next step.</p>
+    </div>
+  </div>
+
+  <section class="coach-panel coach-verdict">
+    <p class="eyebrow">TODAY'S VERDICT</p>
+    <h2 id="coachVerdict">Start a session and I'll read the result.</h2>
+    <p id="coachVerdictText" class="muted"></p>
+  </section>
+
+  <section class="coach-grid">
+    <div class="coach-stat"><span>ACCURACY</span><b id="coachAccuracy">0%</b><small>overall</small></div>
+    <div class="coach-stat"><span>READINESS</span><b id="coachReadiness">0%</b><small>current signal</small></div>
+    <div class="coach-stat"><span>DAILY GOAL</span><b id="coachDaily">0%</b><small>today</small></div>
+  </section>
+
+  <section class="coach-panel">
+    <p class="eyebrow">YOUR NEXT ACTION</p>
+    <h3 id="coachActionTitle">Build your first data point.</h3>
+    <p id="coachActionText" class="muted"></p>
+    <button id="coachAction" class="primary">START RECOMMENDED TRAINING →</button>
+  </section>
+
+  <section class="coach-panel">
+    <div class="pc-head"><div><p class="eyebrow">WHY ANI IS SAYING THIS</p><h3>Evidence</h3></div></div>
+    <div id="coachEvidence" class="coach-evidence"></div>
+  </section>
+
+  <section class="coach-panel coach-note">
+    <p><strong>Coach principle:</strong> ANI doesn't tell you that you're “ready” just because you scored well once. It looks for repeated evidence across accuracy, volume and consistency.</p>
+  </section>
+</main>
+</section>
+
+<section id="studyMode" class="screen hidden">
+<header class="topbar">
+  <div class="academy-mark compact"><div class="shield small">★</div><div><div class="brand">ANI</div><div class="brand-sub">STUDY MODE</div></div></div>
+  <button id="studyBack" class="icon-btn">←</button>
+</header>
+<main class="study-wrap">
+  <div class="study-heading">
+    <div><p class="eyebrow">LEARN BEFORE YOU TEST</p><h1>Study the concept.<br>Then attack it.</h1><p class="muted">Choose a topic, learn the key ideas, and immediately practice what you learned.</p></div>
+    <div class="study-count"><b id="studyTopicCount">0</b><span>TOPICS</span></div>
+  </div>
+  <div class="study-filters">
+    <label>SUBJECT<select id="studySubject"><option value="ALL">ALL SUBJECTS</option></select></label>
+    <label>TOPIC<select id="studyTopic"><option value="ALL">ALL TOPICS</option></select></label>
+  </div>
+  <div id="studyTopicCards" class="study-topic-cards"></div>
+</main>
+</section>
+
+<section id="studyLesson" class="screen hidden">
+<header class="topbar">
+  <div class="academy-mark compact"><div class="shield small">★</div><div><div class="brand">ANI</div><div class="brand-sub">LESSON</div></div></div>
+  <button id="lessonBack" class="icon-btn">←</button>
+</header>
+<main class="lesson-wrap">
+  <div class="lesson-hero">
+    <p class="eyebrow" id="lessonSubject">SUBJECT</p>
+    <h1 id="lessonTitle">Topic</h1>
+    <p id="lessonIntro" class="muted"></p>
+  </div>
+  <section class="lesson-card">
+    <p class="eyebrow">CORE CONCEPT</p>
+    <h3 id="lessonCoreTitle">What you need to know</h3>
+    <p id="lessonCore"></p>
+  </section>
+  <section class="lesson-card">
+    <p class="eyebrow">KEY POINTS</p>
+    <div id="lessonPoints" class="key-points"></div>
+  </section>
+  <section class="lesson-card remember-card">
+    <p class="eyebrow">REMEMBER THIS</p>
+    <h3 id="lessonRemember"></h3>
+  </section>
+  <button id="lessonPractice" class="primary">PRACTICE THIS TOPIC →</button>
+</main>
+</section>
+
+<section id="questionLibrary" class="screen hidden">
+<header class="topbar">
+  <div class="academy-mark compact"><div class="shield small">★</div><div><div class="brand">ANI</div><div class="brand-sub">QUESTION LIBRARY</div></div></div>
+  <button id="libraryBack" class="icon-btn">←</button>
+</header>
+<main class="library-wrap">
+  <div class="library-heading">
+    <div><p class="eyebrow">SMART QUESTION BANK</p><h1>Choose how you train.</h1><p class="muted">Filter by subject, topic and difficulty. ANI will build a fresh set from the available question bank.</p></div>
+    <div class="bank-count"><b id="bankCount">0</b><span>QUESTIONS</span></div>
+  </div>
+  <div class="library-filters">
+    <label>SUBJECT<select id="librarySubject"><option value="ALL">ALL SUBJECTS</option></select></label>
+    <label>TOPIC<select id="libraryTopic"><option value="ALL">ALL TOPICS</option></select></label>
+    <label>DIFFICULTY<select id="libraryDifficulty"><option value="ALL">ALL LEVELS</option><option>Easy</option><option>Medium</option><option>Hard</option></select></label>
+  </div>
+  <div class="library-summary" id="librarySummary">Showing all available questions.</div>
+  <div class="library-preview" id="libraryPreview"></div>
+  <button id="startLibraryTraining" class="primary">START FILTERED TRAINING →</button>
+</main>
+</section>
+
+<section id="motivation" class="screen hidden">
+<header class="topbar">
+  <div class="academy-mark compact"><div class="shield small">★</div><div><div class="brand">ANI</div><div class="brand-sub">ACHIEVEMENTS</div></div></div>
+  <button id="motivationBack" class="icon-btn">←</button>
+</header>
+<main class="motivation-wrap">
+  <div class="motivation-hero">
+    <div><p class="eyebrow">DISCIPLINE BUILDS SELECTION</p><h1 id="motivationTitle">Your record is being built.</h1><p id="motivationText" class="muted">Every completed session adds to your academy record.</p></div>
+    <div class="xp-orb"><b id="motivationXp">0</b><span>XP</span></div>
+  </div>
+
+  <section class="level-card-v17">
+    <div><div><span class="eyebrow">CURRENT LEVEL</span><h2 id="motivationLevel">01 · CADET</h2></div><div class="level-next" id="levelNext">100 XP to next level</div></div>
+    <div class="level-track"><i id="levelBar"></i></div>
+  </section>
+
+  <section class="achievement-panel">
+    <div class="pc-head"><div><p class="eyebrow">ACHIEVEMENTS</p><h3>Earn your marks.</h3></div><span id="achievementCount">0 / 8</span></div>
+    <div id="achievementGrid" class="achievement-grid"></div>
+  </section>
+
+  <section class="milestone-panel">
+    <p class="eyebrow">NEXT MILESTONE</p>
+    <h3 id="milestoneTitle">Start your journey.</h3>
+    <p id="milestoneText" class="muted">Complete your first training session to unlock your first achievement.</p>
+    <div class="milestone-progress"><i id="milestoneBar"></i></div>
+  </section>
+</main>
+</section>
+
+<section id="progressCenter" class="screen hidden">
+<header class="topbar">
+  <div class="academy-mark compact"><div class="shield small">★</div><div><div class="brand">ANI</div><div class="brand-sub">PROGRESS CENTER</div></div></div>
+  <button id="progressBack" class="icon-btn">←</button>
+</header>
+<main class="progress-center-wrap">
+  <div class="progress-hero">
+    <div><p class="eyebrow">SELECTION READINESS</p><h1 id="readinessTitle">Your preparation has a direction.</h1><p id="readinessText" class="muted">ANI is measuring your consistency, accuracy and training discipline.</p></div>
+    <div class="readiness-circle"><b id="readinessBig">0%</b><span>READY</span></div>
+  </div>
+
+  <section class="progress-kpis">
+    <div><span>QUESTIONS</span><b id="pcQuestions">0</b><small>attempted</small></div>
+    <div><span>ACCURACY</span><b id="pcAccuracy">0%</b><small>overall</small></div>
+    <div><span>STREAK</span><b id="pcStreak">0 🔥</b><small>days</small></div>
+    <div><span>LEVEL</span><b id="pcLevel">01</b><small id="pcRank">CADET</small></div>
+  </section>
+
+  <section class="pc-panel">
+    <div class="pc-head"><div><p class="eyebrow">SUBJECT PERFORMANCE</p><h3>Where you stand</h3></div><span id="pcSubjectAvg">—</span></div>
+    <div id="pcSubjects"></div>
+  </section>
+
+  <section class="pc-panel">
+    <div class="pc-head"><div><p class="eyebrow">TOPIC RADAR</p><h3>Your biggest gaps</h3></div><button id="pcRadarBtn" class="text-btn">OPEN RADAR →</button></div>
+    <div id="pcTopics"></div>
+  </section>
+
+  <section class="pc-panel">
+    <div class="pc-head"><div><p class="eyebrow">TODAY</p><h3>Daily discipline</h3></div><span id="pcDailyPct">0%</span></div>
+    <div class="pc-daily"><div class="pc-daily-bar"><i id="pcDailyBar"></i></div><div><b id="pcDailyDone">0</b> / <b id="pcDailyTarget">40</b> questions</div></div>
+  </section>
+
+  <section class="pc-panel selection-panel">
+    <p class="eyebrow">SELECTION SIGNAL</p>
+    <h3 id="selectionSignal">Start training to generate your signal.</h3>
+    <p id="selectionAdvice" class="muted">Your readiness score becomes more meaningful as ANI collects more attempts.</p>
+  </section>
+</main>
+</section>
+
+<section id="smartMission" class="screen hidden">
+<header class="topbar">
+  <div class="academy-mark compact"><div class="shield small">★</div><div><div class="brand">ANI</div><div class="brand-sub">SMART MISSION</div></div></div>
+  <button id="missionBack" class="icon-btn">←</button>
+</header>
+<main class="mission-wrap">
+  <p class="eyebrow">PERSONALIZED TRAINING</p>
+  <div class="mission-hero">
+    <div>
+      <span class="mission-badge">ANI HAS A TARGET FOR YOU</span>
+      <h1 id="missionTitle">Your next mission.</h1>
+      <p id="missionIntro" class="muted">Built from your recent performance.</p>
+    </div>
+    <div class="mission-target">TARGET<br><b id="missionAccuracy">—</b></div>
+  </div>
+  <div class="mission-grid">
+    <div class="mission-card"><span>WEAK TOPIC</span><b id="missionTopic">—</b></div>
+    <div class="mission-card"><span>SUBJECT</span><b id="missionSubject">—</b></div>
+    <div class="mission-card"><span>ACCURACY</span><b id="missionCurrentAccuracy">—</b></div>
+    <div class="mission-card"><span>QUESTIONS</span><b id="missionCount">10</b></div>
+  </div>
+  <div class="mission-plan">
+    <p class="eyebrow">TRAINING ORDER</p>
+    <h3 id="missionOrder">Attack the weakest topic first.</h3>
+    <ol>
+      <li>Review the concept behind the mistakes.</li>
+      <li>Answer a focused set of questions.</li>
+      <li>Re-test until accuracy improves.</li>
+    </ol>
+  </div>
+  <button id="startSmartMission" class="primary">START SMART MISSION →</button>
+</main>
+</section>
+
+<section id="review" class="screen hidden">
+<header class="topbar">
+  <div class="academy-mark compact"><div class="shield small">★</div><div><div class="brand">ANI</div><div class="brand-sub">ANSWER REVIEW</div></div></div>
+  <button id="reviewBack" class="icon-btn">←</button>
+</header>
+<main class="review-wrap">
+  <div class="review-heading">
+    <div><p class="eyebrow" id="reviewEyebrow">MISSION REVIEW</p><h1>Learn from every answer.</h1><p class="muted">Correct answers build your score. Understanding your mistakes builds your selection.</p></div>
+    <div class="review-count"><b id="reviewWrong">0</b><span>TO IMPROVE</span></div>
+  </div>
+  <div id="reviewList" class="review-list"></div>
+</main>
+</section>
+
+<section id="weakness" class="screen hidden">
+<header class="topbar"><div class="academy-mark compact"><div class="shield small">★</div><div><div class="brand">ANI</div><div class="brand-sub">WEAKNESS CAMP</div></div></div><button id="weakBack" class="icon-btn">←</button></header>
+<main class="weak-wrap">
+  <p class="eyebrow">TRAINING INTELLIGENCE</p><h1>Attack your weak areas.</h1>
+  <p class="muted">ANI turns your past answers into a focused training plan. The goal isn't to hide weak subjects — it's to eliminate them.</p>
+  <div id="subjectList" class="subject-list"></div>
+  <div id="recommended" class="recommendation"></div>
+</main>
+</section>
+
+<div id="toast" class="toast"></div>
+</div>
+<script src="app.js"></script>
+
+<nav class="bottom-nav" id="bottomNav">
+  <button class="nav-item active" data-nav="dashboard"><span>⌂</span><small>HOME</small></button>
+  <button class="nav-item" data-nav="battlePlan"><span>⚔</span><small>PLAN</small></button>
+  <button class="nav-item" data-nav="examSelect"><span>▣</span><small>EXAM</small></button>
+  <button class="nav-item" data-nav="performance"><span>▤</span><small>PROGRESS</small></button>
+  <button class="nav-item" data-nav="motivation"><span>★</span><small>ACHIEVE</small></button>
+  <button class="nav-item" data-nav="questionLibrary"><span>☷</span><small>TRAIN</small></button>
+  <button class="nav-item" data-nav="studyMode"><span>◉</span><small>STUDY</small></button>
+  <button class="nav-item" data-nav="coach"><span>✦</span><small>COACH</small></button>
+  <button class="nav-item" data-nav="dailyIntel"><span>☀</span><small>BRIEF</small></button>
+  <button class="nav-item" data-nav="mistakeNotebook"><span>▣</span><small>NOTES</small></button>
+  <button class="nav-item" data-nav="revisionMode"><span>↻</span><small>REVISE</small></button>
+  <button class="nav-item" data-nav="spacedRevision"><span>◌</span><small>MEMORY</small></button>
+  <button class="nav-item" data-nav="analytics"><span>▥</span><small>PROGRESS</small></button>
+  <button class="nav-item" data-nav="targetSetup"><span>◎</span><small>PROFILE</small></button>
+  <button class="nav-item" data-nav="missionHub"><span>⚔</span><small>MISSIONS</small></button>
+  <button class="nav-item" data-nav="academyRank"><span>★</span><small>RANK</small></button>
+  <button class="nav-item" data-nav="achievements"><span>✦</span><small>BADGES</small></button>
+  <button class="nav-item" data-nav="streakCalendar"><span>▦</span><small>STREAK</small></button>
+  <button class="nav-item" data-nav="dailyBrief"><span>☀</span><small>BRIEF</small></button>
+  <button class="nav-item" data-nav="weaknessCoach"><span>⌁</span><small>COACH</small></button>
+  <button class="nav-item" data-nav="subjectCommand"><span>◈</span><small>SUBJECTS</small></button>
+  <button class="nav-item" data-nav="mockCommand"><span>▣</span><small>EXAM</small></button>
+  <button class="nav-item" data-nav="examRoomV39"><span>▶</span><small>ROOM</small></button>
+  <button class="nav-item" data-nav="examAnalysisV40"><span>⌁</span><small>DEBRIEF</small></button>
+  <button class="nav-item" data-nav="mistakeRoomV41"><span>×</span><small>MISTAKES</small></button>
+  <button class="nav-item" data-nav="questionBankV42"><span>▤</span><small>BANK</small></button>
+  <button class="nav-item" data-nav="questionImportV43"><span>⇧</span><small>IMPORT</small></button>
+  <button class="nav-item" data-nav="questionSearchV44"><span>⌕</span><small>SEARCH</small></button>
+  <button class="nav-item" data-nav="revisionEngineV45"><span>↻</span><small>REVIEW</small></button>
+  <button class="nav-item" data-nav="aspirantProfileV46"><span>◎</span><small>MISSION</small></button>
+  <button class="nav-item" data-nav="dailyMissionV47"><span>◈</span><small>TODAY</small></button>
+  <button class="nav-item" data-nav="motivationV48"><span>★</span><small>LEVEL</small></button>
+  <button class="nav-item" data-nav="performanceDashboardV49"><span>◉</span><small>PROGRESS</small></button>
+  <button class="nav-item" data-nav="examSimulatorV50"><span>▶</span><small>SIMULATOR</small></button>
+  <button class="nav-item" data-nav="subjectMasteryV51"><span>◈</span><small>MASTERY</small></button>
+  <button class="nav-item" data-nav="mistakeVaultV52"><span>!</span><small>MISTAKES</small></button>
+  <button class="nav-item" data-nav="mockHistoryV53"><span>▤</span><small>HISTORY</small></button>
+  <button class="nav-item" data-nav="studyPlannerV54"><span>⌁</span><small>PLAN</small></button>
+  <button class="nav-item" data-nav="questionIntelligenceV55"><span>◆</span><small>BANK</small></button>
+  <button class="nav-item" data-nav="practiceGeneratorV56"><span>+</span><small>PRACTICE</small></button>
+</nav>
+
+</body>
+</html>
