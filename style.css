@@ -226,3 +226,30 @@ input:focus {
   border-radius: 22px;
   padding: 26px;
   margin-bottom
+/* MOBILE RESPONSIVE FIX */
+@media (max-width: 768px) {
+  body {
+    overflow-x: hidden;
+  }
+
+  .dashboard {
+    padding: 16px 12px;
+  }
+
+  .welcome {
+    padding: 18px;
+    border-radius: 16px;
+  }
+
+  .welcome,
+  .hero,
+  .dashboard {
+    max-width: 100%;
+    overflow: hidden;
+  }
+
+  nav {
+    width: 100%;
+    overflow-x: auto;
+  }
+}
